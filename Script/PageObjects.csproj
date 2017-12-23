@@ -52,8 +52,8 @@
   <ItemGroup>
     <Compile Include="PaginaLogin.cs" />
     <Compile Include="PaginaBase.cs" />
-    <Compile Include="PaginaParametros.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screenshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -10,10 +10,6 @@ namespace PageObjects
 {
     public class PaginaLogin : PaginaBase
     {
-        public PaginaLogin(IWebDriver driver)
-        {
-            base(driver);
-        }
 
         public void RealizaLogin(String usuario, String senha)
         {
@@ -26,6 +22,11 @@ namespace PageObjects
             inputSenha.Clear();
             inputSenha.SendKeys(senha);
             botaoLogin.Click();
+        }
+
+        public void VisitaPaginaLogin()
+        {
+            NavegarPara("http://mantis-prova.base2.com.br");
         }
 
     }
