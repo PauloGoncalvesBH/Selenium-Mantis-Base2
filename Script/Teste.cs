@@ -8,5 +8,6 @@ namespace Script
 {
     public class Teste
     {
+        Teste
     }
 }
