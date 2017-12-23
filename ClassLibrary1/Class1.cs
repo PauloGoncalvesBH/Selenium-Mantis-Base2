@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using
+using Script;
 
-namespace Script
+namespace ClassLibrary1
 {
-    public class Teste
+    public class Class1 : Teste
+
     {
-        Teste
     }
 }
