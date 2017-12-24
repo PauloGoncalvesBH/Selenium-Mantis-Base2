@@ -6,63 +6,51 @@ using System.Threading.Tasks;
 using PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 
 namespace Testes
 {
 
     [TestFixture]
-    public class ParametroTest : PaginaBase
+    sealed class ParametroTest
     {
-        PaginaBase paginaBase = new PaginaBase(new FirefoxDriver());
-        PaginaLogin paginaLogin;
+        public Browser browser;
+        public PaginaLogin paginaLogin;
+        public PrintScreen printScreen;
+
+        public static IWebDriver driver;
+        string paginaLoginMantis = "http://mantis-prova.base2.com.br";
 
         [SetUp]
         public void AcessarPaginaLogin()
         {
-            paginaLogin.VisitaPaginaLogin();
-            paginaBase.MaximizarTela();
+            driver = new FirefoxDriver();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+            paginaLogin = new PaginaLogin(driver);
+            browser = new Browser(driver);
+            printScreen = new PrintScreen(driver);
+            
+            browser.NavegarPara(paginaLoginMantis);
+            browser.MaximizarTela();
         }
 
         [TearDown]
         public void FinalizaTesteLogin()
         {
-            paginaBase.FecharNavegador();
+            browser.FecharNavegador();
+
+            if (driver != null)
+                driver.Dispose();
         }
 
         [Test]
-        public void Teste()
+        public void RealizarLoginComSucessoPreenchendoCorretamenteUsuarioeSenha()
         {
-
+            paginaLogin.RealizaLogin("paulo.goncalves", "123456789");
+            printScreen.TirarScreenshotComData(@"C:\Users\Pichau\Desktop", "teste");
         }
-
-
-
-        //private void AdotandoQueUsuarioLogado()
-        //{
-        //    this.AcessandoPaginaLogin = new PaginaLogin(this.PaginaBase.getDriver());
-        //    this.paginaInicial = paginaLogin.logar("admin", "admin123");
-        //}
-
-        //private void AcessaMenuParametro()
-        //{
-        //    this.paginaParametros = paginaInicial.acessaPaginaDeParametros();
-        //}
-
-        //private void VerificaValorParametro()
-        //{
-        //    Assert.assertEquals("30", this.paginaParametros.obterValorParametro("prTempMax"));
-        //}
-
-        //private void ConfirmaEntaoParametros()
-        //{
-        //    this.paginaParametros.confirmarParametros();
-        //}
-
-        //private void FechaNavegador()
-        //{
-        //    this.paginaBase.closeNavegator();
-        //}
 
     }
 

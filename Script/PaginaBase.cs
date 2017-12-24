@@ -8,59 +8,32 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
-using System.IO;
-using System.Drawing;
 
 namespace PageObjects
 {
 
-    public class PaginaBase
+    public class Browser
     {
         IWebDriver driver;
-        TimeSpan tempoDeEspera = TimeSpan.FromSeconds(10);
-
-        public PaginaBase(IWebDriver driver)
+        
+        public Browser(IWebDriver driver)
         {
             this.driver = driver;
-            EsperaImplicita();
         }
 
-        public PaginaBase()
+        public void NavegarPara(String url)
         {
-            this.driver = new FirefoxDriver();
-            EsperaImplicita();
-        }
-
-        private void EsperaImplicita()
-        {
-            this.driver.Manage().Timeouts().ImplicitWait = tempoDeEspera;
-        }
-
-        protected void NavegarPara(String url)
-        {
-            this.driver.Navigate().GoToUrl(url);
+            driver.Navigate().GoToUrl(url);
         }
 
         public void MaximizarTela()
         {
-            this.driver.Manage().Window.Maximize();
+            driver.Manage().Window.Maximize();
         }
-
-        public IWebDriver GetDriver()
-        {
-            return driver;
-        }
-
+        
         public void FecharNavegador()
         {
-            GetDriver().Close();
-        }
-
-        protected void FinalizaTeste()
-        {
-            FecharNavegador();
-            this.driver = null;
-
+            driver.Close();
         }
         
     }

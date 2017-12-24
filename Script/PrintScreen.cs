@@ -10,21 +10,28 @@ using OpenQA.Selenium.Firefox;
 
 namespace PageObjects
 {
-    class Screenshot
+    public class PrintScreen
     {
         int contadorPrint = 0;
-        PaginaBase paginaBase;
 
-        private void TirarScreenshotComData(string directory, string nomeArquivo, ScreenshotImageFormat formato)
+        IWebDriver driver;
+
+        public PrintScreen(IWebDriver driver)
         {
+            this.driver = driver;
+        }
 
-            IWebDriver instanciaBrowser = paginaBase.GetDriver();
+        public void TirarScreenshotComData(string directory, string nomeArquivo)
+        {
 
             contadorPrint++; //Updates the number of screenshots that we took during the execution
 
             StringBuilder timeAndDate = new StringBuilder(DateTime.Now.ToString());
             timeAndDate.Replace("/", "_");
             timeAndDate.Replace(":", "_");
+            
+            var nomeScreenshot = "N° " + this.contadorPrint.ToString() + " - " + nomeArquivo + " - " + timeAndDate.ToString();
+            ScreenshotImageFormat formato = ScreenshotImageFormat.Jpeg;
 
             DirectoryInfo validation = new DirectoryInfo(directory);
             bool hasDirectory = validation.Exists == true;
@@ -32,12 +39,12 @@ namespace PageObjects
             // Se não tiver o diretório vai criar o mesmo;
             if (hasDirectory)
             {
-                ((ITakesScreenshot)instanciaBrowser).GetScreenshot().SaveAsFile(directory + this.contadorPrint.ToString() + "." + nomeArquivo + timeAndDate.ToString() + "." + formato, formato);
+                ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(directory + nomeScreenshot + "." + formato, formato);
             }
             else
             {
                 validation.Create();
-                ((ITakesScreenshot)instanciaBrowser).GetScreenshot().SaveAsFile(directory + this.contadorPrint.ToString() + "." + nomeArquivo + timeAndDate.ToString() + "." + formato, formato);
+                ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(directory + nomeScreenshot + "." + formato, formato);
             }
         }
     }
