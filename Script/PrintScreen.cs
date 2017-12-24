@@ -11,8 +11,6 @@ namespace PageObjects
 {
     public class PrintScreen
     {
-        int contadorPrint = 0;
-
         IWebDriver driver;
 
         public PrintScreen(IWebDriver driver)
@@ -20,30 +18,20 @@ namespace PageObjects
             this.driver = driver;
         }
 
-        public void TirarScreenshotComData(string directory, string nomeArquivo)
+        /// <summary>
+        /// Método para tirar e salvar o screenshot da página ativa;
+        /// </summary>
+        /// <param name="directory"></param>
+        public void TirarScreenshot(string directory)
         {
+            var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+            byte[] imageBytes = Convert.FromBase64String(screenshot.ToString());
 
-            contadorPrint++; //Updates the number of screenshots that we took during the execution
-
-            StringBuilder timeAndDate = new StringBuilder(DateTime.Now.ToString());
-            timeAndDate.Replace("/", "_");
-            timeAndDate.Replace(":", "_");
-            
-            var nomeScreenshot = "N° " + this.contadorPrint.ToString() + " - " + nomeArquivo + " - " + timeAndDate.ToString();
-            ScreenshotImageFormat formato = ScreenshotImageFormat.Jpeg;
-
-            DirectoryInfo validation = new DirectoryInfo(directory);
-            bool hasDirectory = validation.Exists == true;
-
-            // Se não tiver o diretório vai criar o mesmo;
-            if (hasDirectory)
+            using (BinaryWriter bw = new BinaryWriter(new FileStream(directory, FileMode.Append,
+            FileAccess.Write)))
             {
-                ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(directory + nomeScreenshot + "." + formato, formato);
-            }
-            else
-            {
-                validation.Create();
-                ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(directory + nomeScreenshot + "." + formato, formato);
+                bw.Write(imageBytes);
+                bw.Close();
             }
         }
     }

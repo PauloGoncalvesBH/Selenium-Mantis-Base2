@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace PageObjects
 {
@@ -18,17 +13,28 @@ namespace PageObjects
             this.timeoutTempoEmSegundos = timeoutTempoEmSegundos;
         }
 
-        // Necessário para ser utilizado em validação que verificar que esse elemento não existe;
+        /// <summary>
+        ///  Método para validar que o texto 'Acessando como' não está presente;
+        /// </summary>
+        /// <returns></returns>
         public By ByAcessandoComo()
         {
             return By.ClassName("login-info-left");
         }
 
+        /// <summary>
+        /// Método para validar que o texto 'Acessando como' está presente;
+        /// </summary>
+        /// <returns></returns>
         public IWebElement TextoAcessandoComo()
         {
-            return driver.FindElement(By.ClassName("login-info-left"), timeoutTempoEmSegundos);
+            return driver.FindElement(ByAcessandoComo(), timeoutTempoEmSegundos);
         }
 
+        /// <summary>
+        /// Método para validar a presença de mensagem de usuário ou senha incorretos;
+        /// </summary>
+        /// <returns></returns>
         public IWebElement TextoSenhaUsuarioIncorreta()
         {
             return driver.FindElement(By.XPath("//font[text() = 'Your account may be disabled or blocked or the username/password you entered is incorrect.']"), timeoutTempoEmSegundos);

@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="TestePaginaLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestePaginaRelatarCaso.cs" />
+    <Compile Include="TestePaginaVerCasos.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Script\PageObjects.csproj">

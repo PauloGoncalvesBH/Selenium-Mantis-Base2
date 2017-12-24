@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Drawing;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
 
 namespace PageObjects
@@ -19,16 +13,26 @@ namespace PageObjects
             this.driver = driver;
         }
 
+        /// <summary>
+        /// Método para acesso à uma URL;
+        /// </summary>
+        /// <param name="url"></param>
         public void NavegarPara(String url)
         {
             driver.Navigate().GoToUrl(url);
         }
 
+        /// <summary>
+        /// Método que maximiza a tela do browser;
+        /// </summary>
         public void MaximizarTela()
         {
             driver.Manage().Window.Maximize();
         }
         
+        /// <summary>
+        /// Método que fechar o browser;
+        /// </summary>
         public void FecharNavegador()
         {
             driver.Close();

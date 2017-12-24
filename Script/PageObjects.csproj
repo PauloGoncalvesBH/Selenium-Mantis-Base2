@@ -50,9 +50,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItensGeraisMantis.cs" />
     <Compile Include="PaginaLogin.cs" />
     <Compile Include="Browser.cs" />
     <Compile Include="PaginaMinhaVisao.cs" />
+    <Compile Include="PaginaRelatarCaso.cs" />
+    <Compile Include="PaginaVerCasos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrintScreen.cs" />
     <Compile Include="WebDriverExtensions.cs" />

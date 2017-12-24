@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PageObjects;
+﻿using PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace Testes
 {
@@ -20,27 +16,29 @@ namespace Testes
         public PaginaLogin paginaLogin;
         public PrintScreen printScreen;
         public PaginaMinhaVisao paginaMinhaVisao;
-
-        public static IWebDriver driver = new FirefoxDriver();
-        string paginaLoginMantis = "http://mantis-prova.base2.com.br";
+        
         int timeoutTempoEmSegundos = 10;
+        string path = @"C:\Users\Paulo\Desktop";
+        IWebDriver driver;
 
         [SetUp]
-        public void AcessarPaginaLogin()
+        public void BeforeEach()
         {
-            // @arrange            
+            // @arrange
+            driver = new ChromeDriver();
+
             paginaLogin = new PaginaLogin(driver, timeoutTempoEmSegundos);
             browser = new Browser(driver);
             printScreen = new PrintScreen(driver);
-            
-            browser.NavegarPara(paginaLoginMantis);
+
             browser.MaximizarTela();
+            paginaLogin.Visita();
         }
 
         [TearDown]
-        public void FinalizaTesteLogin()
+        public void AfterEach()
         {
-            printScreen.TirarScreenshotComData(@"C:\Users\Pichau\Desktop", "teste");
+            printScreen.TirarScreenshot(path);
 
             browser.FecharNavegador();
 
@@ -48,35 +46,39 @@ namespace Testes
                 driver.Dispose();
         }
 
+        /// <summary>
+        /// Teste que realiza login com usuário e senha existentes e valida se ocorreu acesso com sucesso;
+        /// </summary>
         [Test]
-        public void Realizar_Login_Com_Sucesso_Preenchendo_Corretamente_Usuario_e_Senha()
+        public void Login_RealizarLoginComSucesso()
         {
-            string usuario = "paulo.goncalves";
-            string senha = "#descubra";
-
             // @act
-            paginaLogin.RealizaLogin(usuario, senha);
+            paginaLogin.RealizarLoginComUsuarioESenhaCorretos();
 
             // @assert
             paginaMinhaVisao = new PaginaMinhaVisao(driver, timeoutTempoEmSegundos);
             Assert.AreEqual(paginaMinhaVisao.TextoAcessandoComo().Displayed, true);
         }
 
-        [Test]
-        public void Realizar_Login_Com_Falha_Preenchendo_Usuario_e_Senha_inexistentes()
+        /// <summary>
+        /// Teste que valida que ao inserir dados de usuários inexistentes é impedido o acesso;
+        /// Teste executado 9 vezes validando os principais casos de testes de login com falha;
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <param name="senha"></param>
+        [Test, Pairwise]
+        public void Login_RealizarLoginUsuarioESenhainexistentes(
+            [Values("usuarioInexistente", "", "!!!!!!!!")] string usuario,
+            [Values("senhaInexistente", "", "@@@@@@@@")] string senha)
         {
-            string usuario = "usuarioInexistente";
-            string senha = "senhaInexistente";
-
             // @act
             paginaLogin.RealizaLogin(usuario, senha);
 
             // @assert
             paginaMinhaVisao = new PaginaMinhaVisao(driver, timeoutTempoEmSegundos);
-            bool presencaTextoAcessandoComo = driver.ElementIsPresent(paginaMinhaVisao.ByAcessandoComo());
-
-            // Valida a existência 
             Assert.AreEqual(paginaMinhaVisao.TextoSenhaUsuarioIncorreta().Displayed, true);
+            
+            bool presencaTextoAcessandoComo = driver.ElementIsPresent(paginaMinhaVisao.ByAcessandoComo());
             Assert.AreEqual(presencaTextoAcessandoComo, false);
         }
 
