@@ -6,7 +6,6 @@ using System.IO;
 using System.Drawing;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace PageObjects
 {

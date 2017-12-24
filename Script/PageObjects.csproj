@@ -51,9 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PaginaLogin.cs" />
-    <Compile Include="PaginaBase.cs" />
+    <Compile Include="Browser.cs" />
+    <Compile Include="PaginaMinhaVisao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrintScreen.cs" />
+    <Compile Include="WebDriverExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

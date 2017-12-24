@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 
 namespace PageObjects
@@ -11,23 +10,36 @@ namespace PageObjects
     public class PaginaLogin
     {
         IWebDriver driver;
+        int timeoutTempoEmSegundos;
 
-        public PaginaLogin(IWebDriver driver)
+        public PaginaLogin(IWebDriver driver, int timeoutTempoEmSegundos)
         {
             this.driver = driver;
+            this.timeoutTempoEmSegundos = timeoutTempoEmSegundos;
         }
 
         public void RealizaLogin(String usuario, String senha)
         {
-            IWebElement inputUsuario = driver.FindElement(By.Name("username"));
-            IWebElement inputSenha = driver.FindElement(By.Name("password"));
-            IWebElement botaoLogin = driver.FindElement(By.CssSelector("[value='Login']"));
+            InputUsuario().Clear();
+            InputUsuario().SendKeys(usuario);
+            InputSenha().Clear();
+            InputSenha().SendKeys(senha);
+            BotaoLogin().Click();
+        }
 
-            inputUsuario.Clear();
-            inputUsuario.SendKeys(usuario);
-            inputSenha.Clear();
-            inputSenha.SendKeys(senha);
-            botaoLogin.Click();
+        public IWebElement InputUsuario()
+        {
+            return driver.FindElement(By.Name("username"), timeoutTempoEmSegundos);
+        }
+
+        public IWebElement BotaoLogin()
+        {
+            return driver.FindElement(By.CssSelector("[value='Login']"), timeoutTempoEmSegundos);
+        }
+
+        public IWebElement InputSenha()
+        {
+            return driver.FindElement(By.Name("password"), timeoutTempoEmSegundos);
         }
 
     }

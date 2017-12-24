@@ -5,8 +5,6 @@ using System.Text;
 using System.IO;
 using System.Drawing;
 using System.Threading.Tasks;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 
 namespace PageObjects
